@@ -84,7 +84,7 @@ app.prepare().then(async () => {
     //   ctx.response.message = "Could not verify request"
     //   return;
     // }
-
+    console.log(payload.landing_site)
     const payload = ctx.request.body
     const full_url = "https://" + shop + payload.landing_site
     const q = url.parse(full_url, true)
