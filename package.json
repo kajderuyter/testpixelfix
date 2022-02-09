@@ -1,7 +1,7 @@
 {
-  "name": "shopify-app-node",
+  "name": "Tiktok Pixel Fix",
   "version": "1.0.0",
-  "description": "Shopify's node app for CLI tool",
+  "description": "Tiktok Pixel Fix test app",
   "scripts": {
     "test": "jest",
     "dev": "cross-env NODE_ENV=development nodemon ./server/index.js --watch ./server/index.js",
