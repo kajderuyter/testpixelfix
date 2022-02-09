@@ -85,7 +85,6 @@ app.prepare().then(async () => {
     //   return;
     // }
     const payload = ctx.request.body
-    console.log(payload.landing_site)
     const full_url = "https://" + shop + payload.landing_site
     const q = url.parse(full_url, true)
     const qdata = q.query
@@ -122,10 +121,8 @@ app.prepare().then(async () => {
       'callback': callback,
     }})
       .then(res => {
-        console.log(`StatusCode: ${res.status}`)
-        console.log("begin data")
+        console.log(`Statuscode: ${res.status}`)
         console.log(res.data)
-        console.log("einde data")
       })
       .catch(err => {
         console.log("begin error")
