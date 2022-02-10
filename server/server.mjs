@@ -101,7 +101,9 @@ app.prepare().then(async () => {
     const content_id = payload.line_items[0].id
     const currency = payload.currency
     const value = payload.current_total_price
-    const callback = payload.note_attributes.ttclid
+    const ttclid = payload.note_attributes.find(x => x.name === 'ttclid')?.value
+    let callback = '';
+    if(ttclid) {callback = ttclid}
 
     ctx.response.status = 200
 
