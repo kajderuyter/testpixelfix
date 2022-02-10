@@ -85,7 +85,10 @@ app.prepare().then(async () => {
     //   return;
     // }
     const payload = ctx.request.body
-    
+    console.log("attributes")
+    console.log(payload.note_attributes)
+    console.log("einde attributes")
+    console.log(payload.note_attributes.ttclid)
     const wachtwoord = 'kajSucces!'
     const external_id = payload.customer.id
     const phone_number = payload.customer.phone
