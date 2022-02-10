@@ -85,11 +85,7 @@ app.prepare().then(async () => {
     //   return;
     // }
     const payload = ctx.request.body
-    console.log(payload.landing_site)
-    const full_url = "https://" + shop + payload.landing_site
-    const q = url.parse(full_url, true)
-    const qdata = q.query
-
+    
     const wachtwoord = 'kajSucces!'
     const external_id = payload.customer.id
     const phone_number = payload.customer.phone
@@ -102,7 +98,7 @@ app.prepare().then(async () => {
     const content_id = payload.line_items[0].id
     const currency = payload.currency
     const value = payload.current_total_price
-    const callback = qdata.ttclid
+    const callback = payload.note_attributes.ttclid
 
     ctx.response.status = 200
 
