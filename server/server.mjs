@@ -101,7 +101,7 @@ app.prepare().then(async () => {
     const content_id = payload.line_items[0].id
     const currency = payload.currency
     const value = payload.current_total_price
-    const callback = qdata.ttcid
+    const callback = qdata.ttclid
 
     ctx.response.status = 200
 
