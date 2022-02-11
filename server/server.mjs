@@ -74,6 +74,8 @@ app.prepare().then(async () => {
   server.use(bodyParser())
   router.post("/webhooks", async ctx => {
     const payload = ctx.request.body
+    console.log([`Previous order number: ${previousOrder}
+                  Current order number: ${payload.order_number}`])
     if (payload.order_number != previousOrder) {
       const hmac = ctx.get('X-Shopify-Hmac-Sha256')
       const topic = ctx.get('X-Shopify-Topic')
@@ -130,6 +132,7 @@ app.prepare().then(async () => {
           console.log("einde error")
         })
       previousOrder = payload.order_number
+      console.log(`New previous order: ${previousOrder}`)
     } else {
       ctx.response.status = 200
     }
