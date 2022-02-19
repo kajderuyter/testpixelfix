@@ -17,7 +17,7 @@ export default function App() {
   };
   const fetchData = async () => {
     let status
-    const json = await fetch('https://testpixelfix.herokuapp.com/route/api/store/val', config).then(response => {
+    const json = await fetch('https://testpixelfix.herokuapp.com/api/store/val', config).then(response => {
       status = response.status
       return response.json()
     })
