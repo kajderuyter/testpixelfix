@@ -18,7 +18,7 @@ module.exports = {
 
     return config;
   },
-  async rewrites() {
+  async redirect() {
     return [
       {
         source: '/route/:path',
