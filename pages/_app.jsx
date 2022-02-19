@@ -8,7 +8,6 @@ import { Redirect } from "@shopify/app-bridge/actions";
 import "@shopify/polaris/dist/styles.css";
 import translations from "@shopify/polaris/locales/en.json";
 import "../public/assets/styles/styles.scss"
-import { withRouter } from "next/router";
 
 function userLoggedInFetch(app) {
   const fetchFunction = authenticatedFetch(app);
@@ -77,4 +76,4 @@ MyApp.getInitialProps = async ({ ctx }) => {
   };
 };
 
-export default withRouter(MyApp);
+export default MyApp;
