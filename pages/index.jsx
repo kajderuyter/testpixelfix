@@ -17,7 +17,7 @@ export default function App() {
   };
   const fetchData = async () => {
     let status
-    const json = await fetch('https://74f0-2a02-a210-2786-ce80-f4ae-5fec-32ce-34b8.ngrok.io/api/store/val', config).then(response => {
+    const json = await fetch('https://testpixelfix.herokuapp.com/api/store/val', config).then(response => {
       status = response.status
       return response.json()
     })
