@@ -30,6 +30,8 @@ Shopify.Context.initialize({
 });
 // Storing the currently active shops in memory will force them to re-login when your server restarts. You should
 // persist this object in your app.
+let shop_name
+let access_token
 const ACTIVE_SHOPIFY_SHOPS = {};
 app.prepare().then(async () => {
   const server = new Koa();
@@ -40,7 +42,9 @@ app.prepare().then(async () => {
       async afterAuth(ctx) {
         // Access token and shop available in ctx.state.shopify
         const { shop, accessToken, scope } = ctx.state.shopify;
-        const host = ctx.query.host;
+        shop_name = shop
+        access_token = accessToken
+        const host = ctx.query.host
         ACTIVE_SHOPIFY_SHOPS[shop] = scope;
 
         const response = await Shopify.Webhooks.Registry.register({
@@ -107,30 +111,30 @@ app.prepare().then(async () => {
 
       ctx.response.status = 200
 
-      axios.post("https://tiktok-api-fix-backend.herokuapp.com/api/testrequest", null, { params: {
-        'wachtwoord': wachtwoord,
-        'external_id': external_id,
-        'phone_number': phone_number || 'leeg',
-        'email': email,
-        'ip': ip,
-        'user_agent': user_agent,
-        'product_price': product_price,
-        'quantity': quantity,
-        'content_type': content_type,
-        'content_id': content_id,
-        'currency': currency,
-        'value': value,
-        'callback': callback,
-      }})
-        .then(res => {
-          console.log(`Statuscode: ${res.status}`)
-          console.log(res.data)
-        })
-        .catch(err => {
-          console.log("begin error")
-          console.log(err.response.data)
-          console.log("einde error")
-        })
+      // axios.post("https://tiktok-api-fix-backend.herokuapp.com/api/testrequest", null, { params: {
+      //   'wachtwoord': wachtwoord,
+      //   'external_id': external_id,
+      //   'phone_number': phone_number || 'leeg',
+      //   'email': email,
+      //   'ip': ip,
+      //   'user_agent': user_agent,
+      //   'product_price': product_price,
+      //   'quantity': quantity,
+      //   'content_type': content_type,
+      //   'content_id': content_id,
+      //   'currency': currency,
+      //   'value': value,
+      //   'callback': callback,
+      // }})
+      //   .then(res => {
+      //     console.log(`Statuscode: ${res.status}`)
+      //     console.log(res.data)
+      //   })
+      //   .catch(err => {
+      //     console.log("begin error")
+      //     console.log(err.response.data)
+      //     console.log("einde error")
+      //   })
       previousOrder = payload.order_number
       console.log(`New previous order: ${previousOrder}`)
     } else {
@@ -147,6 +151,39 @@ app.prepare().then(async () => {
       console.log(genHash)
       return genHash === hmac
   }
+
+  router.get("/api/store/val", async ctx => {
+    await axios.post("https://tiktok-api-fix-backend.herokuapp.com/api/store/validate", null, { params: {
+      'store_key': access_token,
+    }})
+    .then(response => {
+      console.log(response.status)
+      if(response.status === 200) {
+        ctx.status = 200
+        ctx.body = JSON.stringify({
+          store_name: shop_name,
+          access_token: access_token
+        })
+      }
+    })
+    .catch(error => {
+      if(error.response) {
+        if(error.response.status === 401) {
+          ctx.body = JSON.stringify({
+            store_name: shop_name,
+            access_token: access_token
+          })
+          ctx.status = 401
+        } else {
+          ctx.status = error.response.status
+          ctx.body = JSON.stringify({
+            store_name: shop_name,
+            access_token: access_token
+          })
+        }
+      } 
+    })
+  })
 
   router.post(
     "/graphql",
