@@ -221,7 +221,7 @@ app.prepare().then(async () => {
       from: 'Test',
       to: 'kajderuyter01@gmail.com',
       subject: 'test mailtje',
-      message: 'Yooo dit is een test mailtje'
+      text: 'Yooo dit is een test mailtje'
     }
 
     transporter.sendMail(mailOptions, (err, info) => {
