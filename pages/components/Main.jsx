@@ -1,6 +1,6 @@
 import PixelID from './PixelID'
 import PixelAC from './PixelAC'
-import WhyUs from './Whyus'
+import WhyUs from './WhyUs'
 import Contact from './Contact'
 
 function Main(props) {
