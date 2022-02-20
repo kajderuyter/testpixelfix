@@ -210,6 +210,7 @@ app.prepare().then(async () => {
   // Email contactform
   router.post('/contact', async (ctx) => {
     const payload = ctx.request.body
+    console.log(payload)
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -221,12 +222,11 @@ app.prepare().then(async () => {
     const mailOptions = {
       from: payload.email,
       to: 'kajderuyter01@gmail.com',
-      subject: 'Contact form submission for 100% TikTok Pixel Tracking',
+      subject: payload.subject,
       html: `
-      <h1>New contact form submission for 100% TikTok Pixel Tracking</h1><br>
+      <h1>Form submission</h1><br>
       <p><b>Name: </b>${payload.name}</p>
       <p><b>Email: </b>${payload.email}</p>
-      <p><b>Subject: </b>${payload.subject}</p>
       <p><b>Message: </b>${payload.message}</p>
       `
     }
