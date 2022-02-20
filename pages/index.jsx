@@ -15,8 +15,8 @@ export default function App() {
     const json = await fetch('https://74f0-2a02-a210-2786-ce80-f4ae-5fec-32ce-34b8.ngrok.io/api/store/val', config).then(response => {
       status = response.status
       return response.json()
-    })
-    if(status === 401) {
+    }).catch(err => (console.log(err)))
+    if(status === 200) {
       setTimeout(() => {
         router.push({
         pathname: "/dashboard",
