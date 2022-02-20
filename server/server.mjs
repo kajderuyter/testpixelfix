@@ -208,7 +208,7 @@ app.prepare().then(async () => {
   });
 
   // Email contactform
-  router.get('/contact', async (ctx) => {
+  router.post('/contact', async (ctx) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -227,10 +227,10 @@ app.prepare().then(async () => {
     transporter.sendMail(mailOptions, (err, info) => {
       if(err) {
         console.log(err)
-        ctx.response = 'niet gelukt'
+        ctx.response = JSON.stringify({message: 'niet gelukt'})
       } else {
         console.log('Email sent: ' + info.response)
-        ctx.response = 'gelukt'
+        ctx.response = JSON.stringify({message: 'gelukt'})
       }
     })
     ctx.status = 200
