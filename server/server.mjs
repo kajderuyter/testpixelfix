@@ -234,10 +234,10 @@ app.prepare().then(async () => {
     transporter.sendMail(mailOptions, (err, info) => {
       if(err) {
         console.log(err)
-        ctx.response = JSON.stringify({message: 'niet gelukt'})
+        ctx.response = JSON.stringify({message: 'Failed to email. Please try again.'})
       } else {
         console.log('Email sent: ' + info.response)
-        ctx.response = JSON.stringify({message: 'gelukt'})
+        ctx.response = JSON.stringify({message: 'Your email was sent successfully. We will get back to you as soon as possible.'})
       }
     })
     ctx.status = 200
