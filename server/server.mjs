@@ -158,7 +158,6 @@ app.prepare().then(async () => {
       'store_key': access_token,
     }})
     .then(response => {
-      console.log(response.status)
       if(response.status === 200) {
         ctx.status = 200
         ctx.body = JSON.stringify({
