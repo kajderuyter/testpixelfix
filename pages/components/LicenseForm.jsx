@@ -66,15 +66,15 @@ class LicenseForm extends Component {
     
     render() {
         return (
-            <form className="license-form" onSubmit={this.handleSubmit}>
+            <form className="input-form" onSubmit={this.handleSubmit}>
                 <h2>Add License Key</h2>
-                <input className='license-input' type="text" placeholder='Enter License Key' value={this.state.value} onChange={this.handleChange} required />
-                <div className='license-box-content'>
+                <input className='input' type="text" placeholder='Enter License Key' value={this.state.value} onChange={this.handleChange} required />
+                <div className='input-box-content'>
                     <h3>How to get it?</h3>
                     <p>After you bought the plan we sent a unique license key to your email.<br/>
                     <b>Note:</b> This code can only be used for one store.</p>
                 </div>
-                <input className='license-submit' type='submit' value='Connect' />
+                <input className='input-submit' type='submit' value='Connect' />
             </form>
         )
     }

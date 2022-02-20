@@ -37,7 +37,7 @@ class PixelAC extends Component {
             <>
                 <h1>Tiktok Pixel Access Code instellen</h1>
                 <form onSubmit={this.handleSubmit}>
-                    <input className='license-input' type="text" placeholder='Enter Tiktok Pixel ID' value={this.state.tiktokpixelid} onChange={this.handleChange} required />
+                    <input className='license-input' type="text" placeholder='Enter Tiktok Pixel Access Code' value={this.state.tiktokpixelid} onChange={this.handleChange} required />
                     <input type='submit' value='Submit'/>
                 </form>
             </>

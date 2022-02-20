@@ -18,12 +18,4 @@ module.exports = {
 
     return config;
   },
-  async redirect() {
-    return [
-      {
-        source: '/route/:path',
-        destination: 'https://https://74f0-2a02-a210-2786-ce80-f4ae-5fec-32ce-34b8.ngrok.io/:path'
-      }
-    ]
-  }
 };

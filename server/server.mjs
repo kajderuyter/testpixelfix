@@ -9,6 +9,7 @@ import Router from "koa-router";
 import bodyParser from 'koa-bodyparser'
 import crypto from 'crypto'
 import axios from 'axios'
+import nodemailer from 'nodemailer'
 
 dotenv.config();
 const port = parseInt(process.env.PORT, 10) || 8081;
@@ -63,7 +64,7 @@ app.prepare().then(async () => {
         }
 
         // Redirect to app with shop parameter upon auth
-        ctx.redirect(`/?shop=${shop}&host=${host}`);
+        ctx.redirect(`/?shop=${shop_name}&host=${host}`);
       },
     })
   );
@@ -193,11 +194,11 @@ app.prepare().then(async () => {
     }
   );
 
-  router.get("(/_next/image/.*)", handleRequest); // Static content is clear
+  router.get("(/_next/static/.*)", handleRequest); // Static content is clear
+  router.get("/_next/image", handleRequest) // Images are clear
   router.get("/_next/webpack-hmr", handleRequest); // Webpack content is clear
   router.get("(.*)", async (ctx) => {
     const shop = ctx.query.shop;
-
     // This shop hasn't been seen yet, go through OAuth to create a session
     if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
       ctx.redirect(`/auth?shop=${shop}`);
@@ -205,6 +206,35 @@ app.prepare().then(async () => {
       await handleRequest(ctx);
     }
   });
+
+  // Email contactform
+  router.get('/contact', async (ctx) => {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    })
+
+    const mailOptions = {
+      from: 'Test',
+      to: 'kajderuyter01@gmail.com',
+      subject: 'test mailtje',
+      message: 'Yooo dit is een test mailtje'
+    }
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if(err) {
+        console.log(err)
+        ctx.response = 'niet gelukt'
+      } else {
+        console.log('Email sent: ' + info.response)
+        ctx.response = 'gelukt'
+      }
+    })
+    ctx.status = 200
+  })
 
   server.use(router.allowedMethods());
   server.use(router.routes());

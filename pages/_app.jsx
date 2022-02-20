@@ -7,7 +7,7 @@ import { authenticatedFetch } from "@shopify/app-bridge-utils";
 import { Redirect } from "@shopify/app-bridge/actions";
 import "@shopify/polaris/dist/styles.css";
 import translations from "@shopify/polaris/locales/en.json";
-import "../public/assets/styles/styles.scss"
+import "../public/styles/styles.scss"
 
 function userLoggedInFetch(app) {
   const fetchFunction = authenticatedFetch(app);
@@ -53,7 +53,6 @@ function MyProvider(props) {
 class MyApp extends App {
   render() {
     const { Component, pageProps, host} = this.props;
-    
     return (
       <AppProvider i18n={translations}>
         <Provider
