@@ -1,19 +1,22 @@
-import PixelID from './PixelID'
-import PixelAC from './PixelAC'
+import Pixel from './Pixel'
 import WhyUs from './WhyUs'
 import Contact from './Contact'
+import Faq from './Faq'
+import Info from './Info.jsx'
 
 function Main(props) {
-    if(props.page === 'pixelid') {
-        return (<><main><PixelID access_code={props.access_token} /></main></>)
-    } else if(props.page === 'pixelac') {
-        return (<><main><PixelAC access_code={props.access_token} /></main></>)
+    if(props.page === 'pixel') {
+        return (<><main><Pixel access_code={props.access_token} /></main></>)
+    } else if(props.page === 'info') {
+        return (<><main><Info access_code={props.access_token} /></main></>)
     } else if(props.page === 'whyus') {
         return (<><main><WhyUs /></main></>)
     } else if(props.page === 'contact') {
         return (<><main><Contact /></main></>)
+    } else if(props.page === 'faq') {
+        return (<><main><Faq /></main></>)
     } else {
-        return (<><main><PixelID access_code={props.access_token} /></main></>)
+        return (<><main><Pixel access_code={props.access_token} /></main></>)
     }
 }
 

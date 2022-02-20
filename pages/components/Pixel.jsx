@@ -81,29 +81,29 @@ class Pixel extends Component {
                 </div>
 
                 <div className="video-wrapper">Hier komt een video</div>
-                <div className="input-box">
+                <div className="tiktok-input-box">
                     <h2>Connect your TikTok Pixel</h2>
                     <form className="input-form" onSubmit={this.handleSubmitId}>
                         <input className='input' type="text" placeholder={this.state.tiktokpixelid || 'Enter Tiktok Pixel ID'} value={this.state.tiktokpixelid} onChange={this.handleChangeId} required />
                         <div className='input-box-content'>
-                            <h3>Where can I find my TikTok Pixel ID?</h3>
                             <p>You can find your TikTok Pixel ID in your Pixel settings.<br/>
                             <b>Note:</b> The app won't work with the wrong Pixel ID</p>
                         </div>
-                        <input className="input-submit" type='submit' value='Submit'/>
+                        <input className="input-submit" type='submit' value='Save'/>
                     </form>
-                </div><br/><br/>
-                <div className="input-box">
-                    <h2>Enter your TikTok Pixel Access Code</h2>
+
                     <form className="input-form" onSubmit={this.handleSubmitAc}>
+                    <h2>Enter your TikTok Pixel Access Code</h2>
+                    <div className="input-wrapper">
                         <input className='input' type="text" placeholder='Enter Tiktok Pixel Access Code' value={this.state.tiktokpixelac} onChange={this.handleChangeAc} required />
+                        <input className="input-submit" type='submit' value='Save'/>
+                        </div>
                         <div className='input-box-content'>
-                            <h3>Where can I find my TikTok Pixel Access Code?</h3>
                             <p>You can find your TikTok Pixel Access Code in your Pixel settings.<br/>
                             <b>Note:</b> The app won't work with the wrong Pixel Access Code</p>
                         </div>
-                        <input className="input-submit" type='submit' value='Submit'/>
                     </form>
+                
                 </div>
             </>
         )

@@ -8,7 +8,8 @@ import NavImage from "/public/images/navimage.png"
 
 
 function Dashboard({ router }) {
-    const [page, setPage] = useState('pixelid')
+    const [page, setPage] = useState('pixel')
+    console.log(router)
     return(
         <>
             <Header name={router.query.store_name} />
@@ -16,14 +17,14 @@ function Dashboard({ router }) {
                 <nav>
                     <ul>
                         <li>
-                            <a className={page === 'pixelid' ? 'active' : ''} onClick={() => {
-                                setPage('pixelid')
+                            <a className={page === 'pixel' ? 'active' : ''} onClick={() => {
+                                setPage('pixel')
                             }}>Connect Pixel</a>
                         </li>
                         <li>
-                            <a className={page === 'pixelac' ? 'active' : ''} onClick={() => {
-                                setPage('pixelac')
-                            }}>Pixel Access Code</a>
+                            <a className={page === 'info' ? 'active' : ''} onClick={() => {
+                                setPage('info')
+                            }}>Your License</a>
                         </li>
                         <li>
                             <a className={page === 'whyus' ? 'active' : ''} onClick={() => {
@@ -34,6 +35,11 @@ function Dashboard({ router }) {
                             <a className={page === 'contact' ? 'active' : ''} onClick={() => {
                                 setPage('contact')
                             }}>Contact us</a>
+                        </li>
+                        <li>
+                            <a className={page === 'faq' ? 'active' : ''} onClick={() => {
+                                setPage('faq')
+                            }}>FAQ</a>
                         </li>
                     </ul>
                     <Image src={NavImage} alt='navimage'/>
