@@ -210,7 +210,6 @@ app.prepare().then(async () => {
   // Email contactform
   router.post('/contact', async (ctx) => {
     const payload = ctx.request.body
-    console.log(payload)
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
