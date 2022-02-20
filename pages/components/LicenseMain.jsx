@@ -6,7 +6,7 @@ function LicenseMain(props) {
     return(
         <>
             <div className='license-main'>
-                <div className='license-box'>
+                <div className='input-box'>
                     <LicenseForm />
                 </div>
             </div>
