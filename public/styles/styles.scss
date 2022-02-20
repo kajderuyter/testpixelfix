@@ -265,4 +265,16 @@ main {
         margin-top: 8px;
         width: 150px;
     }
+    .form-error {
+        font-size: 14px;
+        color: rgb(133, 14, 14);
+    }
+    .email-succes {
+        font-size: 14px;
+        color: rgb(42, 167, 4);
+    }
+    .email-failed {
+        font-size: 14px;
+        color: rgb(133, 14, 14);
+    }
 }
