@@ -9,7 +9,6 @@ import NavImage from "/public/images/navimage.png"
 
 function Dashboard({ router }) {
     const [page, setPage] = useState('pixel')
-    console.log(router)
     return(
         <>
             <Header name={router.query.store_name} />
