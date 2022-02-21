@@ -54,10 +54,10 @@ class LicenseForm extends Component {
                         } 
                         return response.json()
                     })
-                    .catch(err => (this.setState({licenseError: err})))
+                    .catch(err => (this.setState({licenseError: 'Can\'t push store data'})))
                 } else {
                     const json = response.json()
-                    this.setState({licenseError: json.body})
+                    this.setState({licenseError: 'License key not valid or expired'})
                 } 
             },err => {
                 console.log(err)
