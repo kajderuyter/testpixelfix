@@ -35,15 +35,15 @@ class Contact extends Component {
     handleSubmit(event) {
         event.preventDefault()
         if(this.state.name){
-            this.state.nameError = ''
+            this.setState({nameError: ''})
             if(this.state.email){
-                this.state.emailError = ''
+                this.setState({emailError: ''})
                 if(isEmail(this.state.email)) {
-                    this.state.emailError = ''
+                    this.setState({emailError: ''})
                     if(this.state.subject) {
-                        this.state.subjectError = ''
+                        this.setState({subjectError: ''})
                         if(this.state.message) {
-                            this.state.messageError=  ''
+                            this.setState({messageError: ''})
                             const config = {
                                 method: 'POST',
                                 headers: {'Content-Type':'application/json'},
@@ -64,21 +64,20 @@ class Contact extends Component {
                                 this.state.emailFailed = err.response.message
                             })
                         } else {
-                            this.state.messageError = 'Please enter a message'
+                            this.setState({messageError: 'Please enter a message'})
                         }
                     } else {
-                        this.state.subjectError = 'Please enter a subject'
+                        this.setState({subjectError: 'Please enter a subject'})
                     }
                 } else {
-                    this.state.emailError = 'Please enter a valid email'
+                    this.setState({emailError: 'Please enter a valid email'})
                 }
             } else {
-                this.state.emailError = 'Please enter your email'
+                this.setState({emailError: 'Please enter your email'})
             }
         } else {
-            this.state.nameError = 'Please enter your name'
+            this.setState({nameError: 'Please enter your name'})
         }
-        console.log(this.state)
     }
 
     render() {
