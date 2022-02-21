@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import Logo from '/public/images/logo.png'
 
 export default function App() {
   const router = useRouter()
@@ -16,7 +18,7 @@ export default function App() {
       status = response.status
       return response.json()
     }).catch(err => (console.log(err)))
-    if(status === 200) {
+    if(status === 401) {
       setTimeout(() => {
         router.push({
         pathname: "/dashboard",
@@ -41,7 +43,9 @@ export default function App() {
   return(
     <>
       <div className="loading-screen">
-        loading...
+        <div className="loading-logo">
+          <Image src={Logo} width={250} height={50} alt='Logo'/>
+        </div>
       </div>
     </>
   )
