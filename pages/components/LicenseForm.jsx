@@ -8,7 +8,8 @@ class LicenseForm extends Component {
         this.state = {
             value: '',
             access_token: props.router.query.access_token,
-            store_url: props.router.query.store_name
+            store_url: props.router.query.store_name,
+            licenseError: ''
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -22,46 +23,48 @@ class LicenseForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault()
-        const store_url = this.state.store_url
-        const store_name = store_url.split(".myshopify.com")[0]
-        let config = {
-            method: "POST",
-            headers: {"Content-Type":"application/json",'X-license-key':this.state.value},
-        }
-        // X-license-key in header, shopify_store_access_token in body
-        fetch(`https://tiktok-api-fix-backend.herokuapp.com/api/store/auth?shopify_store_access_token=${this.state.access_token}`, config)
-        .then(response => {
-            if(response.status == 200) {
-                // X-shopify-key (access_code) in header, store_name & store_url in body
-                config = {
-                    method: "POST",
-                    headers: {"Content-Type":"application/json",'X-shopify-key':this.state.access_token}
-                }
-                fetch(`https://tiktok-api-fix-backend.herokuapp.com/api/store?store_name=${store_name}&store_url=${this.state.store_url}`, config)
-                .then(response => (response.json()))
-                .then(result => (console.log(result)))
-                .catch(err => (console.log(err)))
-            } else if(response.status == 401) {
-                console.log(response.body)
-            } else if(response.status == 404) {
-                console.log(response.body)
-            } else {
-                console.log("Hier gaat iets fout")
+        if(this.state.value.length === 32){
+            this.setState({licenseError: ''})
+            const store_url = this.state.store_url
+            const store_name = store_url.split(".myshopify.com")[0]
+            let config = {
+                method: "POST",
+                headers: {"Content-Type":"application/json",'X-license-key':this.state.value},
             }
-        return response.json()
-        },err => {
-            console.log(err)
-        })
-        .then(result => {
-            console.log(result)
-        })
-        this.props.router.push({
-            pathname: "/dashboard",
-            query: {
-                access_token: this.state.access_token,
-                store_name: this.state.store_url
-            },
-        })
+            // X-license-key in header, shopify_store_access_token in body
+            fetch(`https://tiktok-api-fix-backend.herokuapp.com/api/store/auth?shopify_store_access_token=${this.state.access_token}`, config)
+            .then(response => {
+                if(response.status == 200) {
+                    // X-shopify-key (access_code) in header, store_name & store_url in body
+                    config = {
+                        method: "POST",
+                        headers: {"Content-Type":"application/json",'X-shopify-key':this.state.access_token}
+                    }
+                    fetch(`https://tiktok-api-fix-backend.herokuapp.com/api/store?store_name=${store_name}&store_url=${this.state.store_url}`, config)
+                    .then(response => {
+                        // If 200, route to dashboard
+                        if(response.status == 200) {
+                            this.props.router.push({
+                                pathname: "/dashboard",
+                                query: {
+                                    access_token: this.state.access_token,
+                                    store_name: this.state.store_url
+                                },
+                            })
+                        } 
+                        return response.json()
+                    })
+                    .catch(err => (this.setState({licenseError: err})))
+                } else {
+                    const json = response.json()
+                    this.setState({licenseError: json.body})
+                } 
+            },err => {
+                console.log(err)
+            })
+        } else {
+            this.setState({licenseError: 'Please enter a valid license key.'})
+        }
     }
     
     render() {
@@ -75,6 +78,7 @@ class LicenseForm extends Component {
                     <b>Note:</b> This code can only be used for one store.</p>
                 </div>
                 <input className='input-submit' type='submit' value='Connect' />
+                <span className="form-error">{this.state.licenseError}</span>
             </form>
         )
     }
