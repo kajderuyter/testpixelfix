@@ -18,7 +18,7 @@ export default function App() {
       status = response.status
       return response.json()
     }).catch(err => (console.log(err)))
-    if(status === 401) {
+    if(status === 200) {
       setTimeout(() => {
         router.push({
         pathname: "/dashboard",

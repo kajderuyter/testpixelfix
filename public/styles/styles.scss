@@ -104,7 +104,7 @@ nav {
     ul {
         list-style-type: none;
         margin: 0;
-        padding: 32px 20px 0 20px;
+        padding: 32px 20px 0 32px;
         li {
             font-size: 18px;
             margin: 16px 0;
@@ -135,6 +135,7 @@ main {
     .page-content {
         margin-top: 32px;
         padding: 0 32px;
+        width: 100%;
         .content-title {
             font-size: 20px;
         }
@@ -333,7 +334,7 @@ main {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-top: 48px;
+    margin-top: 32px;
     padding: 0 32px;
     .input {
         border: 1px solid rgba(0,0,0,0.25);
@@ -366,14 +367,16 @@ main {
         margin-top: 8px;
         width: 150px;
     }
-    .email-succes {
-        font-size: 14px;
-        color: rgb(42, 167, 4);
-    }
-    .email-failed {
-        font-size: 14px;
-        color: rgb(133, 14, 14);
-    }
+}
+.email-success {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #199129;
+}
+.email-failed {
+    margin-top: 16px;
+    font-size: 14px;
+    color: rgb(133, 14, 14);
 }
 .form-error {
     font-size: 14px;

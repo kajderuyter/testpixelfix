@@ -40,6 +40,7 @@ app.prepare().then(async () => {
   server.keys = [Shopify.Context.API_SECRET_KEY];
   server.use(
     createShopifyAuth({
+      accessMode: 'offline',
       async afterAuth(ctx) {
         // Access token and shop available in ctx.state.shopify
         const { shop, accessToken, scope } = ctx.state.shopify;
@@ -228,18 +229,18 @@ app.prepare().then(async () => {
       <p><b>Message: </b>${payload.message}</p>
       `
     }
-
-    transporter.sendMail(mailOptions, (err, info) => {
-      if(err) {
-        console.log(err)
-        ctx.status = 401
-        ctx.body = JSON.stringify({message: 'Failed to email. Please try again.'})
-      } else {
-        console.log('Email sent: ' + info.response)
-        ctx.status = 200
-        ctx.body = JSON.stringify({message: 'Your email was sent successfully. We will get back to you as soon as possible.'})
-      }
-    })
+    const email = async (mailConfig) => {
+      const emailResult = await transporter.sendMail(mailConfig)
+      return emailResult
+    }
+    const result = await email(mailOptions)
+    if (result.accepted.length > 0) {
+      ctx.status = 200
+      ctx.body = JSON.stringify({message: 'Thank you for your email. We will get back to you as soon as possible.'})
+    } else {
+      ctx.status = 401
+      ctx.body = JSON.stringify({message: 'Could not send email. Please try again.'})
+    }
   })
 
   server.use(router.allowedMethods());

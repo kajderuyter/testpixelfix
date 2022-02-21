@@ -18,6 +18,8 @@ class Contact extends Component {
             emailFailed: ''
         }
 
+        this.baseState = this.state
+
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
@@ -32,7 +34,7 @@ class Contact extends Component {
         }
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
         event.preventDefault()
         if(this.state.name){
             this.setState({nameError: ''})
@@ -54,14 +56,18 @@ class Contact extends Component {
                                     message: this.state.message
                                 })
                             }
-                            fetch('https://74f0-2a02-a210-2786-ce80-f4ae-5fec-32ce-34b8.ngrok.io/contact', config)
-                            .then(response => (response.json))
+                            await fetch('https://74f0-2a02-a210-2786-ce80-f4ae-5fec-32ce-34b8.ngrok.io/contact', config)
                             .then(response => {
-                                this.state.emailSuccess = response.message
+                                return response.json()
+                            })
+                            .then(response => {
+                                console.log(response)
+                                this.setState(this.baseState)
+                                this.setState({emailSuccess: response.message})
                             })
                             .catch(err => {
-                                console.log(err.message)
-                                this.state.emailFailed = err.response.message
+                                console.log(err)
+                                this.setState({emailFailed: 'foutje'})
                             })
                         } else {
                             this.setState({messageError: 'Please enter a message'})
@@ -87,6 +93,10 @@ class Contact extends Component {
                 <h1 className="content-title">Contact us</h1>
                 <p className="content-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas dolores nulla culpa voluptate laudantium sapiente modi architecto eaque libero nobis!</p>
             </div>
+            <div className="page-content">
+                <span className="email-success">{this.state.emailSuccess}</span>
+                <span className="email-failed">{this.state.emailFailed}</span>
+            </div>
             <form className="contact-form" onSubmit={this.handleSubmit}>
                 <label htmlFor="name">Name</label>
                 <input name="name" className="input" type="text" placeholder="Your Name" value={this.state.name} onChange={this.handleChange}/>
@@ -101,8 +111,7 @@ class Contact extends Component {
                 <textarea name="message" className="input" rows="5" placeholder="Your Message" value={this.state.message} onChange={this.handleChange}/>
                 <span className="form-error">{this.state.messageError}</span>
                 <button className="input-submit" type="submit" onClick={this.handleSubmit}>Submit</button>
-                <span className="email-success">{this.state.emailSuccess}</span>
-                <span className="email-failed">{this.state.emailFailed}</span>
+
             </form>
             </>
         )

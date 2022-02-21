@@ -4,7 +4,7 @@ import Contact from './Contact'
 import Faq from './Faq'
 import Info from './Info.jsx'
 
-function Main(props) {
+export default function Main(props) {
     if(props.page === 'pixel') {
         return (<><main><Pixel access_code={props.access_token} /></main></>)
     } else if(props.page === 'info') {
@@ -19,5 +19,3 @@ function Main(props) {
         return (<><main><Pixel access_code={props.access_token} /></main></>)
     }
 }
-
-export default Main
