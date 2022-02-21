@@ -47,6 +47,15 @@ h3 {
     display: flex;
     justify-content: center;
     align-items: center;
+    .loading-logo {
+        animation: logoLoad 1.5s;
+    }
+}
+
+@keyframes logoLoad {
+    0% {transform: scale(1)}
+    50% {transform: scale(1.25)}
+    100% {transform: scale(1);}
 }
 
 header {
@@ -357,10 +366,6 @@ main {
         margin-top: 8px;
         width: 150px;
     }
-    .form-error {
-        font-size: 14px;
-        color: rgb(133, 14, 14);
-    }
     .email-succes {
         font-size: 14px;
         color: rgb(42, 167, 4);
@@ -369,6 +374,10 @@ main {
         font-size: 14px;
         color: rgb(133, 14, 14);
     }
+}
+.form-error {
+    font-size: 14px;
+    color: rgb(133, 14, 14);
 }
 .info {
     width: 100%;
