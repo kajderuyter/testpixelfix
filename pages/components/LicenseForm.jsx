@@ -18,7 +18,6 @@ class LicenseForm extends Component {
 
     handleChange(event) {
         this.setState({value: event.target.value.trim()})
-        console.log(this.state)
     }
 
     handleSubmit(event) {
