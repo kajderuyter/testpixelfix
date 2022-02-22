@@ -26,7 +26,7 @@ class Pixel extends Component {
 
     handleSubmit(event) {
         event.preventDefault()
-        if(this.state.tiktokpixelid.length === 20){
+        if(this.state.tiktokpixelid){
             if(this.state.tiktokpixelac.length === 40) {
                 let config = {
                     method: 'POST',
