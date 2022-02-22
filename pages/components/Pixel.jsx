@@ -38,7 +38,7 @@ class Pixel extends Component {
                 }
                 // Save Pixel ID
                 fetch(`https://tiktok-api-fix-backend.herokuapp.com/api/tiktok/pixel?pixel_id=${this.state.tiktokpixelid}`, config)
-                .then(response => (response.json())).then(result => (console.log(result))).catch(err => this.setState({pixelidError: 'Couldn\'t save Pixel ID'}))
+                .then(response => (response.json())).catch(err => this.setState({pixelidError: 'Couldn\'t save Pixel ID'}))
                 // Save Pixel AC
                 fetch(`https://tiktok-api-fix-backend.herokuapp.com/api/tiktok/auth?pixel_access_token=${this.state.tiktokpixelac}`, config)
                 .then(response => (response.json())).then(result => this.setState({formSuccess: 'Pixel ID and Access Code successfully added.'})).catch(err => this.setState({pixelAcerror: 'Couldn\'t save Pixel Access Code'}))
