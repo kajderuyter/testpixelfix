@@ -56,7 +56,7 @@ class Contact extends Component {
                                     message: this.state.message
                                 })
                             }
-                            await fetch('https://74f0-2a02-a210-2786-ce80-f4ae-5fec-32ce-34b8.ngrok.io/contact', config)
+                            await fetch('https://tiktok-pixel-fix.herokuapp.com/contact', config)
                             .then(response => {
                                 return response.json()
                             })

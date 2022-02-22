@@ -1,29 +1,6 @@
 import React from "react";
-import { useEffect, useState } from "react";
 
 export default function Info(props) {
-    const [name, setName] = useState('')
-    const [url, setUrl] = useState('')
-    
-    let data
-    useEffect(() => {
-        fetchData()
-    })
-
-    const fetchData = async () => {
-        const config = {
-            method: 'GET',
-            headers: {
-                'X-shopify-key': props.access_code
-            }
-        }
-        data = await fetch('https://tiktok-api-fix-backend.herokuapp.com/api/store', config)
-        .then(response => response.json())
-        .catch(err => console.log(err))
-        setName(data.store_name)
-        setUrl(data.store_url)
-    }
-
     return(
         <>
             <div className="page-content">
@@ -33,9 +10,9 @@ export default function Info(props) {
 
             <div className="info">
                 <label>Store name</label>
-                <input className="input" type="text" value={name} disabled/>
+                <input className="input" type="text" value={props.name} disabled/>
                 <label>Store url</label>
-                <input className="input" type="text" value={url} disabled/>
+                <input className="input" type="text" value={props.url} disabled/>
             </div>
         </>
     )

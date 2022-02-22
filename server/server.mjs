@@ -33,6 +33,7 @@ Shopify.Context.initialize({
 // persist this object in your app.
 let shop_name
 let access_token
+let auth
 const ACTIVE_SHOPIFY_SHOPS = {};
 app.prepare().then(async () => {
   const server = new Koa();
@@ -46,6 +47,7 @@ app.prepare().then(async () => {
         const { shop, accessToken, scope } = ctx.state.shopify;
         shop_name = shop
         access_token = accessToken
+        auth = ctx.query
         const host = ctx.query.host
         ACTIVE_SHOPIFY_SHOPS[shop] = scope;
 
@@ -75,47 +77,61 @@ app.prepare().then(async () => {
     ctx.respond = false;
     ctx.res.statusCode = 200;
   };
-
-  function verifyWebhook(pl, hmac) {
-    const message = pl
-    const genHash = crypto
-      .createHmac("sha256", process.env.SHOPIFY_API_SECRET)
-      .update(message)
-      .digest("base64")
-      console.log(genHash)
-      return genHash === hmac
+  
+  function verifyWebhook(body, hmac) {
+    const hash = crypto
+    .createHmac('sha256', '6f4ef435a9dc6cfe23f5161402382e6c743c81f00e56e70156faf39da8fe2705')
+    .update(body, 'utf-8', 'hex')
+    .digest("base64")
+    return hash === hmac
   }
 
+  server.use(bodyParser())
+  router.get("/customers/data_request", async ctx => {ctx.status = 200})
+  router.get("/customers/redact", async ctx => {ctx.status = 200})
+  router.get("/shop/redact", async ctx => {
+    const body = ctx.request.rawBody
+    const shopify_header = ctx.request.header['x-shopify-hmac-sha256']
+    const verified = verifyWebhook(body, ctx.request.header['x-shopify-hmac-sha256'])
+    if(verified) {
+      axios.post('https://tiktok-api-fix-backend.herokuapp.com/api/clean_store', body, { headers: {'x-shopify-hmac-sha256': shopify_header}})
+      .then(response => console.log(response.status)).catch(err => console.log(err))
+    }
+    ctx.status = 200
+  })
+
   router.get("/api/store/val", async ctx => {
-    await axios.post("https://tiktok-api-fix-backend.herokuapp.com/api/store/validate", null, { params: {
-      'store_key': access_token,
-    }})
-    .then(response => {
-      if(response.status === 200) {
-        ctx.status = 200
-        ctx.body = JSON.stringify({
-          store_name: shop_name,
-          access_token: access_token
-        })
-      }
-    })
-    .catch(error => {
-      if(error.response) {
-        if(error.response.status === 401) {
+    if(auth) {
+      await axios.post("https://tiktok-api-fix-backend.herokuapp.com/api/store/validate", null, { params: {
+        'store_key': access_token,
+      }})
+      .then(response => {
+        if(response.status === 200) {
+          ctx.status = 200
           ctx.body = JSON.stringify({
             store_name: shop_name,
-            access_token: access_token
-          })
-          ctx.status = 401
-        } else {
-          ctx.status = error.response.status
-          ctx.body = JSON.stringify({
-            store_name: shop_name,
-            access_token: access_token
+            access_token: access_token,
           })
         }
-      } 
-    })
+      })
+      .catch(error => {
+        if(error.response) {
+          if(error.response.status === 401) {
+            ctx.body = JSON.stringify({
+              store_name: shop_name,
+              access_token: access_token
+            })
+            ctx.status = 401
+          } else {
+            ctx.status = error.response.status
+            ctx.body = JSON.stringify({
+              store_name: shop_name,
+              access_token: access_token
+            })
+          }
+        } 
+      })
+    }
   })
 
   router.post(
@@ -133,7 +149,11 @@ app.prepare().then(async () => {
     const shop = ctx.query.shop;
     // This shop hasn't been seen yet, go through OAuth to create a session
     if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
-      ctx.redirect(`/auth?shop=${shop}`);
+      if(shop){
+        ctx.redirect(`/auth?shop=${shop}`);
+      } else {
+        ctx.redirect('https://tiktokpixelfix.com')
+      }
     } else {
       await handleRequest(ctx);
     }
@@ -152,7 +172,7 @@ app.prepare().then(async () => {
 
     const mailOptions = {
       from: payload.email,
-      to: 'kajderuyter01@gmail.com',
+      to: process.env.EMAIL_TO,
       subject: payload.subject,
       html: `
       <h1>Form submission</h1><br>

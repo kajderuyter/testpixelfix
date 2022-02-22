@@ -14,7 +14,7 @@ export default function App() {
   };
   const fetchData = async () => {
     let status
-    const json = await fetch('https://74f0-2a02-a210-2786-ce80-f4ae-5fec-32ce-34b8.ngrok.io/api/store/val', config).then(response => {
+    const json = await fetch('https://tiktok-pixel-fix.herokuapp.com/api/store/val', config).then(response => {
       status = response.status
       return response.json()
     }).catch(err => (console.log(err)))
@@ -24,7 +24,7 @@ export default function App() {
         pathname: "/dashboard",
         query: {
           store_name: json.store_name,
-          access_token: json.access_token
+          access_token: json.access_token,
         }
       })}, 1000)
     } else {
