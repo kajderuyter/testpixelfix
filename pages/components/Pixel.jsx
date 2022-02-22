@@ -9,7 +9,8 @@ class Pixel extends Component {
             tiktokpixelac: '',
             access_code: props.access_code,
             pixelidError: '',
-            pixelAcerror: ''
+            pixelAcerror: '',
+            formSuccess: ''
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -40,7 +41,7 @@ class Pixel extends Component {
                 .then(response => (response.json())).then(result => (console.log(result))).catch(err => this.setState({pixelidError: 'Couldn\'t save Pixel ID'}))
                 // Save Pixel AC
                 fetch(`https://tiktok-api-fix-backend.herokuapp.com/api/tiktok/auth?pixel_access_token=${this.state.tiktokpixelac}`, config)
-                .then(response => (response.json())).then(result => (console.log(result))).catch(err => this.setState({pixelAcerror: 'Couldn\'t save Pixel Access Code'}))
+                .then(response => (response.json())).then(result => this.setState({formSuccess: 'Pixel ID and Access Code successfully added.'})).catch(err => this.setState({pixelAcerror: 'Couldn\'t save Pixel Access Code'}))
             } else {
                 // Pixel Access Code leeg
                 this.setState({pixelAcerror: 'Please enter a valid Pixel Access Code'})
@@ -82,7 +83,7 @@ class Pixel extends Component {
                         </div>
                         <input className="input-submit" type='submit' value='Connect'/>
                     </form>
-                
+                    <span className="form-success"> {this.state.formSuccess} </span>
                 </div>
             </>
         )
