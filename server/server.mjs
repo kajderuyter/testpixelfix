@@ -162,7 +162,6 @@ app.prepare().then(async () => {
   // Handle app uninstall
   router.post("/webhooks/app/uninstalled", async (ctx) => {
     const payload = ctx.request.body
-    console.log(payload)
     const shop = payload.domain
     delete ACTIVE_SHOPIFY_SHOPS[shop]
     ctx.status = 200
