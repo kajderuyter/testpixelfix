@@ -163,6 +163,7 @@ app.prepare().then(async () => {
   router.post("/webhooks/app/uninstalled", async (ctx) => {
     const shop = ctx.request.body.shop_name
     delete ACTIVE_SHOPIFY_SHOPS[shop]
+    ctx.status = 200
   })
 
   // Email contactform
