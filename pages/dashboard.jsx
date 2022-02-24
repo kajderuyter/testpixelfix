@@ -36,6 +36,11 @@ function Dashboard({ router }) {
                             }}>Contact us</a>
                         </li>
                         <li>
+                            <a className={page === 'faq' ? 'active' : ''} onClick={() => {
+                                setPage('faq')
+                            }}>FAQ</a>
+                        </li>
+                        <li>
                             <a className={page === 'instructions' ? 'active' : ''} onClick={() => {
                                 setPage('instructions')
                             }}>FAQ</a>
