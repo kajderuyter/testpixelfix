@@ -35,12 +35,12 @@ function Dashboard({ router }) {
                                 setPage('contact')
                             }}>Contact us</a>
                         </li>
-                    </ul>
                         <li>
                             <a className={page === 'instructions' ? 'active' : ''} onClick={() => {
                                 setPage('instructions')
                             }}>FAQ</a>
                         </li>
+                    </ul>
                     <Image src={NavImage} alt='navimage'/>
                 </nav>
                 <Main page={page} access_token={router.query.access_token}/>
