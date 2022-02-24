@@ -1,0 +1,32 @@
+{% if template contains 'cart' %}
+
+<script>
+const fs = document.getElementsByTagName('form')
+let f
+for(var i = 0; i < fs.length; i++) {
+    if(fs[i].action.includes('/cart')) {
+        f = fs[i]
+    }
+}
+const t = document.cookie.match(new RegExp('(^| )' + 'ttclid' + '=([^;]+)'));
+const e = document.createElement("input")
+e.type = 'text'
+e.name = 'attributes[ttcid]'
+if(t) {
+    e.value = t[2]
+}
+e.style.display = 'none'
+if(f) {
+    f.appendChild(e)
+}
+</script>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Tikfix",
+  "target": "body",
+  "settings": []
+}
+{% endschema %}

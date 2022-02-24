@@ -4,6 +4,7 @@ import WhyUs from './WhyUs'
 import Contact from './Contact'
 import Faq from './Faq'
 import Info from './Info.jsx'
+import Instructions from './Instructions'
 
 export default function Main(props) {
 
@@ -54,6 +55,8 @@ export default function Main(props) {
         return (<><main><Contact /></main></>)
     } else if(props.page === 'faq') {
         return (<><main><Faq /></main></>)
+    } else if(props.page === 'instructions') {
+        return (<><main><Instructions /></main></>)
     } else {
         return (<><main><Pixel pixelid={pixelId} access_code={accessToken} /></main></>)
     }
