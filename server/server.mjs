@@ -25,7 +25,7 @@ Shopify.Context.initialize({
   SCOPES: process.env.SCOPES.split(","),
   HOST_NAME: process.env.HOST.replace(/https:\/\/|\/$/g, ""),
   API_VERSION: ApiVersion.October20,
-  IS_EMBEDDED_APP: true,
+  IS_EMBEDDED_APP: false,
   // This should be replaced with your preferred storage strategy
   SESSION_STORAGE: new Shopify.Session.MemorySessionStorage(),
 });
@@ -54,7 +54,7 @@ app.prepare().then(async () => {
         const response = await Shopify.Webhooks.Registry.register({
           shop,
           accessToken,
-          path: "/webhooks",
+          path: "/webhooks/app/uninstalled",
           topic: "APP_UNINSTALLED",
           webhookHandler: async (topic, shop, body) =>
             delete ACTIVE_SHOPIFY_SHOPS[shop],
@@ -158,6 +158,12 @@ app.prepare().then(async () => {
       await handleRequest(ctx);
     }
   });
+
+  // Handle app uninstall
+  router.post("/webhooks/app/uninstalled", async (ctx) => {
+    const shop = ctx.request.body.shop_name
+    delete ACTIVE_SHOPIFY_SHOPS[shop]
+  })
 
   // Email contactform
   router.post('/contact', async (ctx) => {
