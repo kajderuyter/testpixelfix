@@ -43,7 +43,7 @@ function Dashboard({ router }) {
                         <li>
                             <a className={page === 'instructions' ? 'active' : ''} onClick={() => {
                                 setPage('instructions')
-                            }}>FAQ</a>
+                            }}>Instructions</a>
                         </li>
                     </ul>
                     <Image src={NavImage} alt='navimage'/>
